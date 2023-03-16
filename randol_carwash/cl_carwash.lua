@@ -21,7 +21,7 @@ CreateThread(function()
     for k, v in pairs(Config.CarWashLocs) do
         carwashZones[#carwashZones + 1] = PolyZone:Create(v.PolyZone, {
             name = k,
-            minZ = 	v.minZ,
+            minZ = v.minZ,
             maxZ = v.maxZ,
             debugPoly = false
         })
