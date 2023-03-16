@@ -21,7 +21,7 @@ CreateThread(function()
     for k, v in pairs(Config.CarWashLocs) do
         carwashZones[#carwashZones + 1] = PolyZone:Create(v.PolyZone, {
             name = k,
-            minZ = v.minZ,
+            minZ = 	v.minZ,
             maxZ = v.maxZ,
             debugPoly = false
         })
@@ -42,15 +42,13 @@ CreateThread(function()
                     exports['qb-core']:DrawText('Car Wash $'..Config.Cost, 'left')
                     setRadial()
                 end
-            elseif not inVehicle and washRadial then
+            end
+        else
+            if washRadial then
                 exports['qb-radialmenu']:RemoveOption(washRadial)
                 washRadial = nil
                 exports['qb-core']:HideText()
             end
-        elseif not isPointInside and washRadial then
-            exports['qb-radialmenu']:RemoveOption(washRadial)
-            washRadial = nil
-            exports['qb-core']:HideText()
         end
     end)
 end)
@@ -59,9 +57,7 @@ RegisterNetEvent('randol_carwash:client:startWash', function()
     if washingVehicle then return end
     QBCore.Functions.TriggerCallback("randol_carwash:server:canAfford",function(result)
         if result then
-            local ped = PlayerPedId()
-            local vehicle = GetVehiclePedIsIn(ped)
-            TriggerServerEvent('randol_carwash:server:removeCost')
+            local vehicle = GetVehiclePedIsIn(PlayerPedId())
             washingVehicle = true
             QBCore.Functions.Progressbar("wash_car", "Washing vehicle..", Config.WashTime, false, false, {
                 disableMovement = true,
